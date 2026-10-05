@@ -1,0 +1,33 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.lines-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.hl{
+    width: 200px;
+    height: 2px;
+    background: white;
+}
+
+.main-information{
+    display: flex;
+    justify-content: space-between;
+    padding-left: 100px;
+    padding-right: 200px;
+}
+
+.data > p{
+    color: white;
+    font-weight: 600;
+}
+
+.data > ul > li{
+    color: white;
+    font-size: 14px;
+}

@@ -1,0 +1,121 @@
+body{
+    background:#000;
+    color:white;
+    font-family:Arial;
+}
+
+.titulo{
+    text-align:center;
+    margin-bottom: 0;
+}
+
+.contador-reservas{
+    text-align: center;
+    color: gold;
+    margin-top: 5px;
+}
+
+.principal{
+    display:flex;
+    justify-content:space-between;
+    padding:40px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.panel-izquierdo{
+    width:280px;
+    background:#111;
+    padding:20px;
+    border-radius:10px;
+}
+
+.caja-servicio{
+    background:#f5c542;
+    color:black;
+    padding:10px;
+    border-radius:10px;
+    margin:10px 0;
+}
+
+.panel-izquierdo label{
+    display:block;
+    margin-top: 10px;
+    margin-bottom: 4px;
+}
+
+.panel-izquierdo input{
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+}
+
+.horas-ocupadas{
+    font-size: 12px;
+    color: #ccc;
+    min-height: 16px;
+}
+
+.btn-principal{
+    width:100%;
+    padding:12px;
+    background:#f5c542;
+    border:none;
+    margin-top:10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.calendario{
+    flex: 1;
+    min-width: 300px;
+    background:#0d0d0d;
+    padding:20px;
+    border-radius:10px;
+}
+
+.evento{
+    background:#f5c542;
+    color:black;
+    padding:10px 14px;
+    border-radius:10px;
+    margin:8px 0;
+    display:block;
+    font-size:13px;
+}
+
+.evento .btn-x{
+    float: right;
+    border: none;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    cursor: pointer;
+}
+
+.popup{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.7);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.popup-content{
+    background:#111;
+    padding:30px;
+    border-radius:10px;
+    text-align:center;
+}
+
+.hide{ display:none; }
+
+.btn-volver{
+    float: inline-end;
+}

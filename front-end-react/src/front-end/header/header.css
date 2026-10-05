@@ -1,0 +1,52 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    font-family: Arial;
+}
+
+body{
+    background-color: black;
+}
+
+.content-logo{
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.logo{
+    width: 50px;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.name-barberia{
+    display: inline-block;
+
+}
+
+.list-nav{
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.list-nav > li{
+    display: inline-block;
+    margin-right: 20px;
+    font-weight: 400;
+    color: gray;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.hide{
+    display: none;
+}
+
+.show{
+    display: inline-block;
+}
