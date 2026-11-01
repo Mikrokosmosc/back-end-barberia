@@ -25,3 +25,4 @@ router.delete('/deleteCita/:id', Controller.deleteCita)
 
 router.get('/getEstadisticas', Controller.getEstadisticas)
 router.get('/getResumen', Controller.getResumen)
+//rutas
