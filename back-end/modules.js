@@ -208,11 +208,25 @@ export class Modules {
 
     static crearCita(data, callback) {
 
-        // INC-001: se valida que la franja (fecha + hora) no esté ya reservada
-        // antes de insertar, para evitar dobles reservas en el mismo horario.
+        const DURACION_BLOQUE = 30;
+
+        const aMinutos = (hora) => {
+            const partes = String(hora).split(":");
+            return parseInt(partes[0], 10) * 60 + parseInt(partes[1], 10);
+        };
+
+        const minutosNuevaCita = aMinutos(data.hora);
+
+        if (Number.isNaN(minutosNuevaCita) || minutosNuevaCita % DURACION_BLOQUE !== 0) {
+            return callback({
+                ok: false,
+                message: "La hora debe estar en intervalos de 30 minutos (por ejemplo 6:00 o 6:30)."
+            });
+        }
+
         Connection.query(
-            'SELECT id FROM cita WHERE fecha = ? AND hora = ?',
-            [data.fecha, data.hora],
+            'SELECT hora FROM cita WHERE fecha = ?',
+            [data.fecha],
             (errorConsulta, existentes) => {
 
                 if (errorConsulta) {
@@ -222,22 +236,28 @@ export class Modules {
                     });
                 }
 
-                if (existentes.length > 0) {
+                const hayConflicto = existentes.some(c => {
+                    const minutosExistente = aMinutos(c.hora);
+                    return Math.abs(minutosExistente - minutosNuevaCita) < DURACION_BLOQUE;
+                });
+
+                if (hayConflicto) {
                     return callback({
                         ok: false,
                         message: "El horario seleccionado ya está reservado. Por favor elija otra hora."
                     });
                 }
 
+                // NUEVO: el barbero es opcional; si no se envía se guarda NULL.
+                const idBarbero = data.id_Barbero ? data.id_Barbero : null;
+
                 Connection.query(
-                    'INSERT INTO cita (id_Cliente, id_Servicio, fecha, hora) VALUES (?, ?, ?, ?)',
-                    [data.id_Cliente, data.id_Servicio, data.fecha, data.hora],
+                    'INSERT INTO cita (id_Cliente, id_Servicio, id_Barbero, fecha, hora) VALUES (?, ?, ?, ?, ?)',
+                    [data.id_Cliente, data.id_Servicio, idBarbero, data.fecha, data.hora],
                     (error, results) => {
 
                         if (error) {
 
-                            // Respaldo: si la restricción UNIQUE de la base de datos
-                            // rechaza el registro, se informa el mismo mensaje al cliente.
                             if (error.code === 'ER_DUP_ENTRY') {
                                 return callback({
                                     ok: false,
@@ -372,9 +392,6 @@ export class Modules {
 
                         if (error2) throw error2;
 
-                        // INC-002: COALESCE evita que SUM devuelva NULL cuando no hay
-                        // citas en el periodo, y CAST garantiza un valor numérico
-                        // (mysql2 devuelve DECIMAL como cadena de texto).
                         Connection.query(
                             `SELECT COALESCE(SUM(servicio.precio), 0) AS ingresosMes
                              FROM cita
